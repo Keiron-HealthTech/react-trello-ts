@@ -247,7 +247,6 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
 						title={card.title}
 						description={card.description}
 						label={card.label}
-						metadata={card.metadata}
 						id={card.id}
 						t={t}
 						{...card}
