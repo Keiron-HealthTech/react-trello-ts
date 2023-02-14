@@ -321,6 +321,7 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
 				collapsible={collapsibleLanes}
 				collapsed={collapsed}
 				t={t}
+				{...otherProps}
 			/>
 			{renderDragContainer(isDraggingOver)}
 			{loading && <components.Loader />}
