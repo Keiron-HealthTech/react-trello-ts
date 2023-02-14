@@ -13,8 +13,9 @@ export * from './widgets'
 import createTranslate from './helpers/createTranslate'
 import {Board} from './controllers/Board'
 import {LaneHeaderProps} from './components/Lane/LaneHeader'
+import {CardComponent} from './components/Card'
 
-export {Draggable, Container, BoardContainer, Lane, createTranslate, locales, LaneHeaderProps}
+export {Draggable, Container, BoardContainer, Lane, createTranslate, locales, LaneHeaderProps, CardComponent}
 
 export {DefaultComponents as components}
 
