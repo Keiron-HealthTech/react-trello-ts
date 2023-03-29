@@ -284,7 +284,7 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
         {...otherProps}
       />
       {renderDragContainer(isDraggingOver)}
-      {loading ? <components.Loader /> : null}
+      {loading && <components.Loader />}
       {showFooter && <components.LaneFooter onClick={toggleLaneCollapsed} collapsed={collapsed} {...otherProps} />}
     </components.Section>
   )
