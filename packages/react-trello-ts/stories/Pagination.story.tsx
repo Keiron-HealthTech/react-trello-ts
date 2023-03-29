@@ -6,7 +6,7 @@ import Board from '../src'
 storiesOf('Basic Functions', module).add(
   'Infinite Scrolling',
   () => {
-    const PER_PAGE = 7
+    const PER_PAGE = 15
 
     function delayedPromise(durationInMs, resolutionPayload) {
       return new Promise(function (resolve) {
@@ -31,7 +31,6 @@ storiesOf('Basic Functions', module).add(
 
     function paginate(requestedPage, laneId) {
       // simulate no more cards after page 2
-      console.log(`requestedPage`, requestedPage)
       if (requestedPage > 2) {
         return delayedPromise(2000, [])
       }

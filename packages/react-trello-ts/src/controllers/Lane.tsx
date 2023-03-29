@@ -100,8 +100,9 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
   ...otherProps
 }) => {
   const board = useBoard()
-  const ref = React.useRef(1)
-  const loading = React.useRef(0)
+  const ref = React.useRef(0)
+  const loadingEvent = React.useRef<Boolean>(false)
+  const [loading, setLoading] = React.useState(false)
   const [collapsed, setCollapsed] = React.useState(false)
   const [addCardMode, setAddCardMode] = React.useState(false)
   const [isDraggingOver, setIsDraggingOver] = React.useState(false)
@@ -146,15 +147,17 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
     const node = evt.target
     const elemScrollPosition = node.scrollHeight - node.scrollTop - node.clientHeight
     // In some browsers and/or screen sizes a decimal rest value between 0 and 1 exists, so it should be checked on < 1 instead of < 0
-    if (elemScrollPosition < 1 && onLaneScroll && !loading.current) {
-      loading.current = 1
+    if (elemScrollPosition < 1 && onLaneScroll && !loadingEvent.current) {
+      loadingEvent.current = true
+      setLoading(true)
       const nextPage = ref.current + 1
       onLaneScroll(nextPage, id).then((moreCards: Card[]) => {
         if ((moreCards || []).length > 0) {
           board.paginateLane(id, moreCards, nextPage)
         }
         ref.current = nextPage
-        loading.current = 0
+        loadingEvent.current = false
+        setLoading(false)
       })
     }
   }
@@ -281,7 +284,7 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
         {...otherProps}
       />
       {renderDragContainer(isDraggingOver)}
-      {loading && <components.Loader />}
+      {loading ? <components.Loader /> : null}
       {showFooter && <components.LaneFooter onClick={toggleLaneCollapsed} collapsed={collapsed} {...otherProps} />}
     </components.Section>
   )
