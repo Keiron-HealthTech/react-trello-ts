@@ -100,21 +100,11 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
   ...otherProps
 }) => {
   const board = useBoard()
-  const [loading, setLoading] = React.useState(false)
-  const [currentPageState, setCurrentPageState] = React.useState(currentPage)
+  const ref = React.useRef(1)
+  const loading = React.useRef(0)
   const [collapsed, setCollapsed] = React.useState(false)
   const [addCardMode, setAddCardMode] = React.useState(false)
   const [isDraggingOver, setIsDraggingOver] = React.useState(false)
-
-  // useEffect(() => {
-  //   setCurrentPageState(currentPageState + 1)
-  //   console.log(`currentPageState`, currentPageState)
-  // }, [cards])
-
-  useEffect(() => {
-    console.log(`currentPage`, currentPage)
-    setCurrentPageState(currentPage + 1)
-  }, [currentPage, cards])
 
   const sortCards = (cards: Card[], sortFunction: typeof laneSortFunction) => {
     if (!cards) {
@@ -156,16 +146,15 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
     const node = evt.target
     const elemScrollPosition = node.scrollHeight - node.scrollTop - node.clientHeight
     // In some browsers and/or screen sizes a decimal rest value between 0 and 1 exists, so it should be checked on < 1 instead of < 0
-    if (elemScrollPosition < 1 && onLaneScroll && !loading) {
-      setLoading(true)
-      console.log('loading more cards', currentPageState, currentPage)
-      const nextPage = currentPageState + 1
+    if (elemScrollPosition < 1 && onLaneScroll && !loading.current) {
+      loading.current = 1
+      const nextPage = ref.current + 1
       onLaneScroll(nextPage, id).then((moreCards: Card[]) => {
         if ((moreCards || []).length > 0) {
           board.paginateLane(id, moreCards, nextPage)
-          console.log(`board`, board)
         }
-        setLoading(false)
+        ref.current = nextPage
+        loading.current = 0
       })
     }
   }

@@ -6,7 +6,7 @@ import Board from '../src'
 storiesOf('Basic Functions', module).add(
   'Infinite Scrolling',
   () => {
-    const PER_PAGE = 15
+    const PER_PAGE = 7
 
     function delayedPromise(durationInMs, resolutionPayload) {
       return new Promise(function (resolve) {
@@ -35,8 +35,7 @@ storiesOf('Basic Functions', module).add(
       if (requestedPage > 2) {
         return delayedPromise(2000, [])
       }
-      console.log(`asdadsdsadassad`)
-      let newCards = generateCards(requestedPage)
+      let newCards = generateCards(requestedPage + 1)
       return delayedPromise(2000, newCards)
     }
 

@@ -117,7 +117,6 @@ export const BoardContainer: FC<PropsWithChildren<BoardContainerProps>> = ({
       onDataChange(data)
       board.initializeLanes(data.lanes)
     }
-    console.log(data)
   }, [data])
 
   const wireEventBus = () => {
