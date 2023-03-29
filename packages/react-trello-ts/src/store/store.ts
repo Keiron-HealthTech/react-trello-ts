@@ -84,7 +84,6 @@ export const store = create<State>()(set => ({
         }
       })
     ),
-
   updateCards: (laneId, cards) =>
     set(
       produce<State>(state => {
@@ -109,13 +108,17 @@ export const store = create<State>()(set => ({
       })
     ),
   updateLanes: lanes =>
-    set(
-      produce<State>(state => {
-        state.data.lanes = lanes
+    set(state => ({
+      data: produce(state.data, draft => {
+        draft.lanes = lanes
       })
-    ),
-
+    })),
   updateLane: lane =>
+    // set(state => ({
+    //   data: produce(state.data, draft => {
+    //     draft.lanes = {...lane, ...draft.lanes.find(l => l.id === lane.id)}
+    //   })
+    // })),
     set(
       produce<State>(state => {
         lane = {...lane, ...state.data.lanes.find(l => l.id === lane.id)}
@@ -126,7 +129,13 @@ export const store = create<State>()(set => ({
       data: produce(state.data, draft => {
         draft.lanes = state.data.lanes.map(l =>
           l.id === laneId
-            ? {...l, cards: [...l.cards, ...newCards], nextPage: nextPage + 1, currentPage: nextPage + 1}
+            ? {
+                ...l,
+                cards: [...l.cards, ...newCards],
+                nextPage: nextPage + 1,
+                currentPage: nextPage + 1,
+                label: [...l.cards, ...newCards].length
+              }
             : l
         )
       })

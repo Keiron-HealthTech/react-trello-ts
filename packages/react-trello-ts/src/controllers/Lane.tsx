@@ -148,8 +148,8 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
     const elemScrollPosition = node.scrollHeight - node.scrollTop - node.clientHeight
     // In some browsers and/or screen sizes a decimal rest value between 0 and 1 exists, so it should be checked on < 1 instead of < 0
     if (elemScrollPosition < 1 && onLaneScroll && !loadingEvent.current) {
-      loadingEvent.current = true
       setLoading(true)
+      loadingEvent.current = true
       const nextPage = ref.current + 1
       onLaneScroll(nextPage, id).then((moreCards: Card[]) => {
         if ((moreCards || []).length > 0) {

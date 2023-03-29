@@ -1,6 +1,6 @@
 {
   "name": "keiron-react-trello-ts",
-  "version": "1.0.15",
+  "version": "1.0.18",
   "description": "Pluggable typesafe components to add a trello like kanban board to your application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
