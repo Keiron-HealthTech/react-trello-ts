@@ -151,11 +151,12 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
       setLoading(true)
       loadingEvent.current = true
       const nextPage = ref.current + 1
+      console.log(nextPage)
       onLaneScroll(nextPage, id).then((moreCards: Card[]) => {
         if ((moreCards || []).length > 0) {
           board.paginateLane(id, moreCards, nextPage)
+          ref.current = nextPage
         }
-        ref.current = nextPage
         loadingEvent.current = false
         setLoading(false)
       })
