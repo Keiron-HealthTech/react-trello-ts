@@ -103,7 +103,7 @@ export const store = create<State>()(set => ({
         }
         const index = lane.cards.findIndex(c => c.id === card.id)
         if (index !== -1) {
-          lane.cards[index] = card
+          lane.cards[index] = {...lane.cards[index], ...card}
         }
       })
     ),
@@ -114,32 +114,21 @@ export const store = create<State>()(set => ({
       })
     })),
   updateLane: lane =>
-    // set(state => ({
-    //   data: produce(state.data, draft => {
-    //     draft.lanes = {...lane, ...draft.lanes.find(l => l.id === lane.id)}
-    //   })
-    // })),
     set(
       produce<State>(state => {
         lane = {...lane, ...state.data.lanes.find(l => l.id === lane.id)}
       })
     ),
   paginateLane: (laneId, newCards, nextPage) =>
-    set(state => ({
-      data: produce(state.data, draft => {
-        draft.lanes = state.data.lanes.map(l =>
-          l.id === laneId
-            ? {
-                ...l,
-                cards: [...l.cards, ...newCards],
-                nextPage: nextPage + 1,
-                currentPage: nextPage + 1,
-                label: [...l.cards, ...newCards].length
-              }
-            : l
-        )
-      })
-    })),
+    set(
+			produce<State>((state) => {
+				state.data.lanes.map((l) =>
+					l.id === laneId
+						? { ...l, cards: [...l.cards, ...newCards], nextPage: nextPage + 1, currentPage: nextPage + 1 }
+						: l,
+				);
+			}),
+		),
   moveLane: (fromIndex, toIndex) =>
     set(
       produce<State>(state => {
