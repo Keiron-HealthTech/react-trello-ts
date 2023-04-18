@@ -112,12 +112,15 @@ export const BoardContainer: FC<PropsWithChildren<BoardContainerProps>> = ({
     }
   }, [])
 
-  useEffect(() => {
-    if (JSON.stringify(board.data) !== JSON.stringify(data)) {
-      onDataChange(data)
-      board.initializeLanes(data.lanes)
-    }
-  }, [data])
+  useEffect(
+    () => {
+      if (JSON.stringify(board.data) !== JSON.stringify(data)) {
+        onDataChange(data)
+        board.initializeLanes(data.lanes)
+      }
+    },
+    [data]
+  )
 
   const wireEventBus = () => {
     const eventBus: EventBusHandle = {
@@ -127,6 +130,8 @@ export const BoardContainer: FC<PropsWithChildren<BoardContainerProps>> = ({
             return board.addCard(event.card, event.laneId, event.index)
           case 'UPDATE_CARD':
             return board.updateCard(event.laneId, event.card)
+          case 'UPDATE_OR_CREATE_CARD':
+            return board.updateOrCreateCard(event.laneId, event.card)
           case 'REMOVE_CARD':
             return board.removeCard(event.laneId, event.cardId)
           case 'REFRESH_BOARD':

@@ -11,6 +11,7 @@ export interface State {
   moveCard: (fromLaneId: string, toLaneId: string, cardId: string, index: number) => void
   updateCards: (laneId: string, cards: Card[]) => void
   updateCard: (laneId: string, card: Card) => void
+  updateOrCreateCard: (laneId: string, card: Card) => void
   updateLanes: (lanes: Lane[]) => void
   updateLane: (lane: Partial<Lane>) => void
   paginateLane: (laneId: string, newCards: Card[], nextPage: number) => void
@@ -104,6 +105,21 @@ export const store = create<State>()(set => ({
         const index = lane.cards.findIndex(c => c.id === card.id)
         if (index !== -1) {
           lane.cards[index] = {...lane.cards[index], ...card}
+        }
+      })
+    ),
+  updateOrCreateCard: (laneId, card) =>
+    set(
+      produce<State>(state => {
+        const lane = state.data.lanes.find(l => l.id === laneId)
+        if (!lane) {
+          throw new Error('Lane not found')
+        }
+        const index = lane.cards.findIndex(c => c.id === card.id)
+        if (index !== -1) {
+          lane.cards[index] = {...lane.cards[index], ...card}
+        } else {
+          lane.cards.push(card)
         }
       })
     ),
