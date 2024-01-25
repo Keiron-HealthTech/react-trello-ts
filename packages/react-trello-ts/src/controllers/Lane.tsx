@@ -135,6 +135,7 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
     onLaneUpdate?.(id, {id, title: value})
   }
   const laneDidMount = (node: HTMLDivElement) => {
+    console.log('laneDidMount', node)
     if (node) {
       node.addEventListener('scroll', handleScroll)
     }
@@ -144,9 +145,11 @@ export const Lane: FC<PropsWithChildren<LaneProps>> = ({
     onLaneDelete?.(id)
   }
   const handleScroll = evt => {
+    console.log('handleScroll', evt)
     const node = evt.target
     const elemScrollPosition = node.scrollHeight - node.scrollTop - node.clientHeight
     // In some browsers and/or screen sizes a decimal rest value between 0 and 1 exists, so it should be checked on < 1 instead of < 0
+    console.log(elemScrollPosition, onLaneScroll, !loadingEvent.current)
     if (elemScrollPosition < 1 && onLaneScroll && !loadingEvent.current) {
       setLoading(true)
       loadingEvent.current = true
